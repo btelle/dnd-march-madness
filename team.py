@@ -12,10 +12,10 @@ class Team():
 	def roll_attack(self, d=20):
 		roll = random.randint(1, d)
 		print('Rolled {0}'.format(roll))
-		return roll + self.hp
+		return roll + self.attack_points
 	
 	def damage(self, damage_amount):
-		if random.randint(0, 10) < 7:
+		if random.randint(0, 10) < 8:
 			self.hp = self.hp - max(damage_amount - self.defense_points, 0)
 		
 	def is_dead(self):

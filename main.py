@@ -6,7 +6,7 @@ def get_attack_points(ppg):
 	min_ppg = 64
 	max_ppg = 90.4
 	
-	return int(20 * ((float(ppg) - min_ppg) / (max_ppg - min_ppg)))
+	return int(10 * ((float(ppg) - min_ppg) / (max_ppg - min_ppg)))
 
 def get_defense_points(oppg):
 	min_oppg = 55.6
@@ -26,3 +26,8 @@ with open('teams.csv') as csvfile:
 		mm.add_team(team)
 
 mm.round_of_64()
+mm.round_of_32()
+mm.sweet_sixteen()
+mm.elite_eight()
+mm.final_four()
+mm.championship()
