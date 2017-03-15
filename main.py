@@ -13,7 +13,7 @@ def get_defense_points(oppg, seed):
 	min_oppg = 55.6
 	max_oppg = 78.2
 	
-	unweighted = int(17 * ((float(oppg) - min_oppg) / (max_oppg - min_oppg))) + (17 - seed)
+	unweighted = int((17 - (17 * ((float(oppg) - min_oppg) / (max_oppg - min_oppg))))) + (17 - seed)
 	return round(5 * (unweighted / 17))
 
 parser = argparse.ArgumentParser()
