@@ -1,6 +1,6 @@
 from march_madness import March_Madness
 from team import Team
-import csv
+import csv, argparse
 
 def get_attack_points(ppg, seed):
 	min_ppg = 64
@@ -15,8 +15,13 @@ def get_defense_points(oppg, seed):
 	
 	unweighted = int(17 * ((float(oppg) - min_oppg) / (max_oppg - min_oppg))) + (17 - seed)
 	return round(5 * (unweighted / 17))
-	
-mm = March_Madness(3, 3)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--rounds', help='Number of rounds to simulate for each matchup. Must be odd.', default=3)
+parser.add_argument('--randomness', help='Amount of randomness to simulate, 1-5', default=1)
+args = parser.parse_args()
+
+mm = March_Madness(args.rounds, args.randomness)
 
 with open('teams.csv') as csvfile:
 	reader = csv.reader(csvfile)
