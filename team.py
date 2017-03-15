@@ -17,9 +17,11 @@ class Team():
 		
 		return roll + self.attack_points
 	
-	def damage(self, damage_amount):
-		if random.randint(0, 10) < 7:
+	def damage(self, damage_amount, randomness):
+		if random.randint(0, 10) < (5 + (6-randomness)):
 			self.hp = self.hp - max(damage_amount - self.defense_points, 0)
+		else:
+			print('ATTACK MISSED')
 		
 	def is_dead(self):
 		return self.hp <= 0

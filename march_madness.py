@@ -36,11 +36,11 @@ class March_Madness(object):
 					winner.reset_health()
 					return winner
 				
-				second.damage(first.roll_attack())
+				second.damage(first.roll_attack(), self.random_factor)
 				if second.is_dead():
 					first_team_wins += 1
 			
-				first.damage(second.roll_attack())
+				first.damage(second.roll_attack(), self.random_factor)
 				if first.is_dead():
 					second_team_wins += 1
 				

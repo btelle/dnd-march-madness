@@ -17,8 +17,8 @@ def get_defense_points(oppg, seed):
 	return round(5 * (unweighted / 17))
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--rounds', help='Number of rounds to simulate for each matchup. Must be odd.', default=3)
-parser.add_argument('--randomness', help='Amount of randomness to simulate, 1-5', default=1)
+parser.add_argument('--rounds', help='Number of rounds to simulate for each matchup. Must be odd.', default=3, type=int)
+parser.add_argument('--randomness', help='Amount of randomness to simulate, 1-5', default=1, type=int)
 args = parser.parse_args()
 
 mm = March_Madness(args.rounds, args.randomness)
