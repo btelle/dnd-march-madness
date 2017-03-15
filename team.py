@@ -11,11 +11,14 @@ class Team():
 	
 	def roll_attack(self, d=20):
 		roll = random.randint(1, d)
-		print('Rolled {0}'.format(roll))
+		
+		if roll == d:
+			print('CRITICAL HIT')
+		
 		return roll + self.attack_points
 	
 	def damage(self, damage_amount):
-		if random.randint(0, 10) < 8:
+		if random.randint(0, 10) < 7:
 			self.hp = self.hp - max(damage_amount - self.defense_points, 0)
 		
 	def is_dead(self):
@@ -23,6 +26,9 @@ class Team():
 	
 	def reset_health(self):
 		self.hp = 100
+	
+	def __str__(self):
+		return '{0} [{1}]'.format(self.name, self.seed)
 	
 	def __repr__(self):
 		return '<{0}|{1}|{2}>'.format(self.name, self.division, self.seed)

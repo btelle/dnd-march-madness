@@ -9,14 +9,16 @@ class March_Madness(object):
 		'2': []
 	}
 	
-	def __init__(self, rounds):
+	def __init__(self, rounds, random_factor):
 		self.rounds = rounds
+		self.random_factor = random_factor
 		self.divisions = {'east': {}, 'west': {}, 'midwest': {}, 'south': {}}
 	
 	def add_team(self, team):
 		self.divisions[team.division][team.seed] = team
 	
 	def do_battle(self, team_a, team_b):
+		print('{0} VS {1}'.format(str(team_a), str(team_b)))
 		first_team_wins = 0
 		second_team_wins = 0
 					
@@ -28,6 +30,12 @@ class March_Madness(object):
 			second = team_b
 		for j in range(0, self.rounds):
 			while not first.is_dead() and not second.is_dead():
+				if random.randint(0, 500/self.random_factor) == 42:
+					print('A DRAGON APPEARS AND LASHES OUT!')
+					winner = [first, second][random.randint(0,1)]
+					winner.reset_health()
+					return winner
+				
 				second.damage(first.roll_attack())
 				if second.is_dead():
 					first_team_wins += 1
@@ -35,9 +43,12 @@ class March_Madness(object):
 				first.damage(second.roll_attack())
 				if first.is_dead():
 					second_team_wins += 1
-				print('first health: {0}, second health: {1}'.format(first.hp, second.hp))
+				
 			first.reset_health()
 			second.reset_health()
+		
+		if (first_team_wins > second_team_wins and first.seed > second.seed) or (first_team_wins < second_team_wins and first.seed < second.seed):
+			print('UPSET')
 		
 		return first if first_team_wins > second_team_wins else second
 		
@@ -63,7 +74,7 @@ class March_Madness(object):
 				
 				self.bracket['32'][div][i] = winner
 				
-		print(self.bracket['32'])
+		self.print_output(self.bracket['32'])
 	
 	def round_of_32(self):
 		bracket = {1: [1,2], 2: [3,4], 3: [5,6], 4: [7,8]}
@@ -76,7 +87,7 @@ class March_Madness(object):
 				
 				self.bracket['16'][div][i] = winner
 		
-		print(self.bracket['16'])
+		self.print_output(self.bracket['16'])
 	
 	def sweet_sixteen(self):
 		bracket = {1: [1,2], 2: [3,4]}
@@ -90,7 +101,7 @@ class March_Madness(object):
 				
 				self.bracket['8'][div][i] = winner
 		
-		print(self.bracket['8'])
+		self.print_output(self.bracket['8'])
 	
 	def elite_eight(self):
 		for div in self.divisions:
@@ -99,14 +110,26 @@ class March_Madness(object):
 			
 			self.bracket['4'][div] = winner
 		
-		print(self.bracket['4'])
+		self.print_final_four(self.bracket['4'])
 	
 	def final_four(self):
 		self.bracket['2'].append(self.do_battle(self.bracket['4']['east'], self.bracket['4']['west']))
 		self.bracket['2'].append(self.do_battle(self.bracket['4']['midwest'], self.bracket['4']['south']))
 		
-		print(self.bracket['2'])
+		print('NATIONAL FINALISTS: {0} and {1}'.format(str(self.bracket['2'][0]), str(self.bracket['2'][1])))
 	
 	def championship(self):
 		self.bracket['winner'] = self.do_battle(self.bracket['2'][0], self.bracket['2'][1])
-		print(self.bracket['winner'])
+		print('THE TOURNAMENT CHAMPION IS {0}'.format(self.bracket['winner']))
+	
+	def print_output(self, bracket_results):
+		for div in bracket_results:
+			print('{0} DIVISION'.format(div.upper()))
+			for i in bracket_results[div]:
+				print(str(bracket_results[div][i]))
+	
+	def print_final_four(self, bracket_results):
+		print('WESTERN DIVISION CHAMPIONS: {0}'.format(str(bracket_results['west'])))
+		print('EASTERN DIVISION CHAMPIONS: {0}'.format(str(bracket_results['east'])))
+		print('MIDWESTERN DIVISION CHAMPIONS: {0}'.format(str(bracket_results['midwest'])))
+		print('SOUTHERN DIVISION CHAMPIONS: {0}'.format(str(bracket_results['south'])))
